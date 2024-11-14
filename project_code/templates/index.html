@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportation Cost Prediction</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            background-color: #f3f4f6; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; 
+        }
+
+        /* Top bar to hold both buttons */
+        .top-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-button, .logout-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .logout-button {
+            background-color: #f44336;
+        }
+
+        .map-button:hover, .logout-button:hover {
+            opacity: 0.8;
+        }
+
+        .container { 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+            width: 500px;
+            margin-top: 60px; /* To avoid overlap with the fixed top bar */
+        }
+
+        h1 { 
+            text-align: center; 
+            font-size: 1.5em; 
+            color: #333; 
+        }
+
+        label { 
+            font-weight: bold; 
+            display: block; 
+            margin-top: 10px; 
+        }
+
+        input[type="text"], input[type="number"], select, button { 
+            width: 100%; 
+            padding: 8px; 
+            margin-top: 5px; 
+        }
+
+        button { 
+            background-color: #4CAF50; 
+            color: white; 
+            width: 110px;
+            border: none; 
+            cursor: pointer; 
+            padding: 10px; 
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        button:hover { 
+            background-color: #45a049; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar with MAP and Logout Buttons -->
+    <div class="top-bar">
+        <!-- MAP Button at the top-left corner -->
+        <a href="/mapper" target="_blank">
+            <button class="map-button">MAP</button>
+        </a>
+
+        <!-- Logout Button at the top-right corner -->
+        <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+
+    <!-- Transportation Cost Prediction Form -->
+    <div class="container">
+        <h1>Cost Prediction</h1>
+        <form id="costForm">
+            <label for="from">From (Start Location):</label>
+            <input type="text" id="from" name="from" required>
+
+            <label for="to">To (Destination):</label>
+            <input type="text" id="to" name="to" required>
+
+            <label for="distance">Distance (km):</label>
+            <input type="number" id="distance" name="distance" required>
+
+            <label for="fuel_efficiency">Fuel Efficiency (km per liter):</label>
+            <input type="number" id="fuel_efficiency" name="fuel_efficiency" required>
+
+            <label for="fuel_cost">Fuel Cost (per liter):</label>
+            <input type="number" id="fuel_cost" name="fuel_cost" required>
+
+            <label for="vehicle_type">Vehicle Type:</label>
+            <select id="vehicle_type" name="vehicle_type">
+                <option value="car">Car</option>
+                <option value="truck">Truck</option>
+                <option value="motorbike">Motorbike</option>
+            </select>
+
+            <button type="submit">Predict Cost</button>
+        </form>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        document.getElementById('costForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            const distance = document.getElementById('distance').value;
+            const fuelEfficiency = document.getElementById('fuel_efficiency').value;
+            const fuelCost = document.getElementById('fuel_cost').value;
+            const vehicleType = document.getElementById('vehicle_type').value;
+
+            // Make API call to predict cost
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ from, to, distance, fuelEfficiency, fuelCost, vehicleType })
+            });
+            const result = await response.json();
+            document.getElementById('result').textContent = `Predicted Cost: ${result.cost}`;
+        });
+    </script>
+
+</body>
+</html>

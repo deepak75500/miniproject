@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphHopper Map</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            background-color: #3498db;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        a:active {
+            background-color: #1d6fa5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GraphHopper Map</h1>
+        <p>Click the link below to view the route:</p>
+        <a href="{{ gh_url }}" target="_blank">View Route on GraphHopper</a>
+    </div>
+</body>
+</html>
