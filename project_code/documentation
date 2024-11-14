@@ -1,1 +1,60 @@
+Documentation for app.py
+Overview
+This Flask application provides routes for:
 
+User authentication (login and logout).
+Travel cost prediction based on distance, fuel efficiency, fuel cost, and vehicle type.
+Map view generation using Graphhopper API for directions between two geocoded locations.
+Imports
+Flask components: For creating routes, handling requests, and rendering templates.
+LinearRegression (unused here but imported): Likely intended for future predictive modeling.
+Numpy (np): Used for numerical operations.
+Requests: For making HTTP requests to external APIs.
+Global Variables
+USER_CREDENTIALS: Hardcoded dictionary for login with "username" as "admin" and "password" as "password123".
+a, b: Used for storing the start and end locations dynamically.
+Functions and Routes
+predict_cost(distance, fuel_efficiency, fuel_cost, vehicle_type):
+
+Purpose: Computes the travel cost based on fuel needs, fuel cost, and a multiplier based on vehicle_type.
+Parameters:
+distance: Distance of the trip.
+fuel_efficiency: Fuel efficiency of the vehicle.
+fuel_cost: Cost per unit of fuel.
+vehicle_type: Type of vehicle (e.g., "car", "truck", "motorbike").
+Returns: Total cost of the trip as a float.
+/ Route (Login):
+
+Methods: GET, POST
+Function: Handles login. On successful login, redirects to /dashboard, else renders username.html with an error message.
+/logout Route:
+
+Function: Clears the login session and renders username.html.
+/dashboard Route:
+
+Function: Renders the main dashboard page (index.html), accessible after successful login.
+/predict Route:
+
+Methods: POST
+Function: Accepts JSON data to predict travel cost using predict_cost.
+Input JSON:
+distance, fuelEfficiency, fuelCost, vehicleType, from, and to.
+Returns: JSON response with either the cost or an error message if inputs are invalid.
+geocode_place(place_name) Function:
+
+Purpose: Uses the OpenCage Geocoding API to get latitude and longitude for a given place.
+Parameters: place_name (string).
+Returns: A tuple (latitude, longitude) if successful; otherwise, None.
+/mapper Route:
+
+Function: Generates a map view with directions between a and b (dynamically updated start and end points).
+Returns: A rendered template red.html with the Graphhopper URL for directions.
+App Execution:
+
+if __name__ == '__main__' block: Runs the Flask app with debug mode enabled.
+Dependencies
+This application requires:
+
+Flask (pip install Flask)
+Requests (pip install requests)
+OpenCage Geocoding API key (hardcoded within geocode_place)
